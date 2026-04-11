@@ -1,0 +1,285 @@
+import pandas as pd
+import numpy as np
+import ast
+import os
+import json
+from tqdm import tqdm
+
+# ======================================================================================
+# 全局配置
+# ======================================================================================
+# --- 原始输入文件 ---
+ORIGINAL_DATA_PATH = 'cleaned_duplicate_data.csv'
+NAIVE_LLM_AUG_PATH = 'aug_sentences_naive_llm_direct.csv'
+GRAPH_MAP_PATH = 'intent_action_entity.json'
+
+# --- BEGO 相关文件 (作为标准参考) ---
+FINAL_TRAIN_SET_RESAMPLED_PATH = 'final_train_set_resampled.csv'
+FINAL_TEST_SET_RESAMPLED_PATH = 'final_test_set_resampled.csv'
+FINAL_TRAIN_RESAMPLED_VECTORS_NPZ_PATH = 'final_train_resampled_vectors.npz'
+FINAL_TEST_RESAMPLED_VECTORS_NPZ_PATH = 'final_test_resampled_vectors.npz'
+
+# --- 纯向量库 (用于构建查找字典) ---
+# 1. 包含 原始 + BEGO增强
+OPTIMIZED_PLAIN_NPZ = 'all_samples_plain_embeddings_final.npz'
+# 2. 包含 原始 + 朴素增强 (由 update_naive_plain_embeddings.py 生成)
+NAIVE_PLAIN_NPZ = 'all_plain_sentence_embeddings.npz'
+
+# --- 朴素欠采样参数 ---
+NAIVE_MAJORITY_THRESHOLD = 80
+NAIVE_TARGET_COUNT = 80
+RANDOM_STATE = 42
+
+# --- 输出目录 ---
+OUTPUT_DIR = './datasets'
+
+# ======================================================================================
+# 辅助函数
+# ======================================================================================
+def ensure_dir(directory):
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+        print(f"创建目录: {directory}")
+
+def save_csv(df, filename, description):
+    path = os.path.join(OUTPUT_DIR, filename)
+    df.to_csv(path, index=False)
+    print(f"  [保存 CSV] {description}: {path}")
+    print(f"    -> 样本数: {len(df)}")
+
+def save_npz(vectors, labels, texts, filename, description):
+    path = os.path.join(OUTPUT_DIR, filename)
+    np.savez(path, vectors=vectors, labels=labels, texts=texts)
+    print(f"  [保存 NPZ] {description}: {path}")
+    print(f"    -> 样本数: {len(vectors)}")
+
+def load_text_from_csv(path, source_type='standard'):
+    """从CSV加载文本列表 (用于构建向量字典的键)"""
+    texts = []
+    try:
+        df = pd.read_csv(path)
+        if source_type == 'original':
+             for _, row in df.iterrows():
+                try:
+                    exs = ast.literal_eval(row['examples'])
+                    if isinstance(exs, list):
+                        texts.extend([e.strip() for e in exs if isinstance(e, str) and e.strip()])
+                except: pass
+        else:
+            col = 'sentence' if 'sentence' in df.columns else 'text'
+            texts.extend([s.strip() for s in df[col] if isinstance(s, str) and s.strip()])
+    except: pass
+    return texts
+
+def load_text_labels_from_csv(path, source_type='standard'):
+    """加载文本和标签用于构建DataFrame"""
+    data = []
+    try:
+        df = pd.read_csv(path)
+        if source_type == 'original':
+             for _, row in df.iterrows():
+                try:
+                    exs = ast.literal_eval(row['examples'])
+                    if isinstance(exs, list):
+                        for e in exs:
+                            if isinstance(e, str) and e.strip():
+                                data.append({'tech_id': row['tech_id'], 'text': e.strip()})
+                except: pass
+        else:
+            col = 'sentence' if 'sentence' in df.columns else 'text'
+            for _, row in df.iterrows():
+                if isinstance(row[col], str) and row[col].strip():
+                    data.append({'tech_id': row['tech_id'], 'text': row[col].strip()})
+    except Exception as e:
+        print(f"加载 {path} 出错: {e}")
+    return pd.DataFrame(data)
+
+# ======================================================================================
+# 主程序
+# ======================================================================================
+def main():
+    print("="*60)
+    print("      开始整理并生成最终数据集文件 (精确逻辑版)")
+    print("="*60 + "\n")
+    
+    ensure_dir(OUTPUT_DIR)
+
+    # ---------------------------------------------------------
+    # 1. 构建全量文本->向量查找字典 (关键步骤)
+    # ---------------------------------------------------------
+    print("--- 步骤 1: 构建全量向量查找字典 ---")
+    text_to_vec = {}
+    
+    # 1.1 加载 BEGO 相关向量
+    print(f"  加载 BEGO 向量库: {OPTIMIZED_PLAIN_NPZ}")
+    try:
+        data = np.load(OPTIMIZED_PLAIN_NPZ, allow_pickle=True)
+        vecs = data['vectors']
+        # 重建文本顺序: 原始 -> Pass1 -> Pass2 -> Pass3 -> Pass4
+        texts = load_text_from_csv(ORIGINAL_DATA_PATH, 'original')
+        for p in ['aug_sentences_final_filtered.csv', 'aug_sentences_second_pass.csv', 
+                  'aug_sentences_third_pass.csv', 'aug_sentences_fourth_pass.csv']:
+            texts.extend(load_text_from_csv(p))
+        
+        if len(texts) == len(vecs):
+            text_to_vec.update({t: v for t, v in zip(texts, vecs)})
+            print(f"    -> 已索引 {len(vecs)} 条 BEGO 相关向量")
+        else:
+            print(f"    [警告] BEGO 向量数 {len(vecs)} != 文本数 {len(texts)}，尝试最大匹配")
+            min_len = min(len(texts), len(vecs))
+            text_to_vec.update({t: v for t, v in zip(texts[:min_len], vecs[:min_len])})
+    except Exception as e: print(f"    [错误] {e}")
+
+    # 1.2 加载 朴素 相关向量
+    print(f"  加载 朴素 向量库: {NAIVE_PLAIN_NPZ}")
+    try:
+        data = np.load(NAIVE_PLAIN_NPZ, allow_pickle=True)
+        vecs = data['vectors']
+        # 重建文本顺序: 原始 -> 朴素增强
+        texts = load_text_from_csv(ORIGINAL_DATA_PATH, 'original')
+        texts.extend(load_text_from_csv(NAIVE_LLM_AUG_PATH))
+        
+        count_new = 0
+        # 只更新字典中不存在的，或者覆盖 (既然是纯向量，同样的文本向量应该一样)
+        if len(texts) == len(vecs):
+            for t, v in zip(texts, vecs):
+                if t not in text_to_vec:
+                    text_to_vec[t] = v
+                    count_new += 1
+            print(f"    -> 新增索引 {count_new} 条 朴素 相关向量")
+        else:
+             print(f"    [警告] 朴素 向量数 {len(vecs)} != 文本数 {len(texts)}，尝试最大匹配")
+             min_len = min(len(texts), len(vecs))
+             for t, v in zip(texts[:min_len], vecs[:min_len]):
+                 if t not in text_to_vec:
+                     text_to_vec[t] = v
+    except Exception as e: print(f"    [错误] {e}")
+    
+    print(f"  最终字典大小: {len(text_to_vec)}\n")
+
+    # ---------------------------------------------------------
+    # 2. 生成 D_test (统一测试集)
+    # ---------------------------------------------------------
+    print("--- 步骤 2: 生成 D_test (统一测试集) ---")
+    df_test = pd.read_csv(FINAL_TEST_SET_RESAMPLED_PATH)
+    test_texts_set = set(df_test['text'].tolist()) # 用于后续剔除
+    
+    # 优先使用现有的测试集专用向量文件 (最准确)
+    data_test_vec = np.load(FINAL_TEST_RESAMPLED_VECTORS_NPZ_PATH, allow_pickle=True)
+    X_test = data_test_vec['vectors']
+    y_test_encoded = data_test_vec['labels_encoded']
+    
+    save_npz(X_test, y_test_encoded, df_test['text'].values, 'D_test.npz', 'D_test (统一测试集)')
+    print("\n")
+
+    # ---------------------------------------------------------
+    # 3. 生成 D_BEDR & D_train_BEDR
+    # ---------------------------------------------------------
+    print("--- 步骤 3: 生成 BEGO 相关数据集 ---")
+    # 训练集
+    df_train_a = pd.read_csv(FINAL_TRAIN_SET_RESAMPLED_PATH)
+    save_csv(df_train_a, 'D_train_BEDR.csv', 'D_train_BEDR (BEGO 训练集)')
+    
+    # 总集 = 训练 + 测试
+    # 向量也直接合并
+    data_train_a = np.load(FINAL_TRAIN_RESAMPLED_VECTORS_NPZ_PATH, allow_pickle=True)
+    X_train_a = data_train_a['vectors']
+    y_train_a = data_train_a['labels_encoded']
+    
+    X_total_a = np.vstack([X_train_a, X_test])
+    y_total_a = np.concatenate([y_train_a, y_test_encoded])
+    texts_total_a = np.concatenate([df_train_a['text'].values, df_test['text'].values])
+    
+    save_npz(X_total_a, y_total_a, texts_total_a, 'D_BEDR.npz', 'D_BEDR (BEGO 总集)')
+    print("\n")
+
+    # ---------------------------------------------------------
+    # 4. 生成 D_Native & D_train_Native (核心修正部分)
+    # ---------------------------------------------------------
+    print("--- 步骤 4: 生成 Native (朴素) 相关数据集 ---")
+    
+    # A. 构建朴素总集 (原始 + 朴素增强)
+    print("  构建朴素原始全量数据...")
+    df_orig = load_text_labels_from_csv(ORIGINAL_DATA_PATH, 'original')
+    df_naive_aug = load_text_labels_from_csv(NAIVE_LLM_AUG_PATH)
+    df_naive_full = pd.concat([df_orig, df_naive_aug], ignore_index=True).drop_duplicates(subset=['tech_id', 'text'])
+    
+    print(f"    朴素全量 (未欠采样): {len(df_naive_full)} 条")
+    
+    # B. 执行随机欠采样
+    print(f"  执行随机欠采样 (阈值: {NAIVE_MAJORITY_THRESHOLD}, 目标: {NAIVE_TARGET_COUNT})...")
+    counts = df_naive_full['tech_id'].value_counts()
+    dfs = []
+    for tid in tqdm(counts.index, desc="  Resampling"):
+        subset = df_naive_full[df_naive_full['tech_id'] == tid]
+        if len(subset) > NAIVE_MAJORITY_THRESHOLD:
+            dfs.append(subset.sample(n=NAIVE_TARGET_COUNT, random_state=RANDOM_STATE))
+        else:
+            dfs.append(subset)
+    df_naive_resampled = pd.concat(dfs, ignore_index=True)
+    
+    # C. 保存 D_Native.npz (总集)
+    vectors_naive = []
+    valid_idx = []
+    for i, text in enumerate(df_naive_resampled['text']):
+        if text in text_to_vec:
+            vectors_naive.append(text_to_vec[text])
+            valid_idx.append(i)
+    
+    df_naive_resampled = df_naive_resampled.iloc[valid_idx] # 确保有向量
+    X_naive_resampled = np.array(vectors_naive)
+    
+    save_npz(X_naive_resampled, df_naive_resampled['tech_id'].values, df_naive_resampled['text'].values, 
+             'D_Native.npz', 'D_Native (朴素总集)')
+
+    # D. 生成 D_train_Native (总集 - 测试集)
+    print("  生成朴素训练集 (剔除测试集)...")
+    # 标记是否在测试集中
+    mask_in_test = df_naive_resampled['text'].isin(test_texts_set)
+    df_train_c = df_naive_resampled[~mask_in_test]
+    
+    save_csv(df_train_c, 'D_train_Native.csv', 'D_train_Native (朴素训练集)')
+    
+    print(f"    D_Native: {len(df_naive_resampled)}")
+    print(f"    重叠剔除: {mask_in_test.sum()}")
+    print(f"    D_train_Native: {len(df_train_c)}")
+    print("\n")
+
+    # ---------------------------------------------------------
+    # 5. 生成 D_Baseline & D_train_Baseline
+    # ---------------------------------------------------------
+    print("--- 步骤 5: 生成 Baseline (基线) 相关数据集 ---")
+    
+    # A. D_Baseline (原始数据)
+    df_baseline = df_orig.drop_duplicates(subset=['tech_id', 'text'])
+    
+    # 匹配向量
+    vectors_base = []
+    valid_idx_b = []
+    for i, text in enumerate(df_baseline['text']):
+        if text in text_to_vec:
+            vectors_base.append(text_to_vec[text])
+            valid_idx_b.append(i)
+    
+    df_baseline = df_baseline.iloc[valid_idx_b]
+    X_baseline = np.array(vectors_base)
+    
+    save_npz(X_baseline, df_baseline['tech_id'].values, df_baseline['text'].values,
+             'D_Baseline.npz', 'D_Baseline (基线总集)')
+    
+    # B. D_train_Baseline (剔除测试集)
+    mask_in_test_b = df_baseline['text'].isin(test_texts_set)
+    df_train_b = df_baseline[~mask_in_test_b]
+    
+    save_csv(df_train_b, 'D_train_Baseline.csv', 'D_train_Baseline (基线训练集)')
+    
+    print(f"    D_Baseline: {len(df_baseline)}")
+    print(f"    重叠剔除: {mask_in_test_b.sum()}")
+    print(f"    D_train_Baseline: {len(df_train_b)}")
+
+    print("\n" + "="*60)
+    print("处理完成！请查看 ./datasets 目录")
+    print("="*60)
+
+if __name__ == '__main__':
+    main()
