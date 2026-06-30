@@ -1,0 +1,244 @@
+tech_id,sentence
+T1673,The script ran 'esxcli network vm list' to identify virtual machines with active network connections.
+T1673,"By executing 'vim-cmd hostsvc/runtimeinfo', the malware collected runtime information about the host and its virtual machines."
+T1673,"By executing 'esxcli software vib list', the malware gathered information about installed VIBs and their associated VMs."
+T1673,The script utilized 'esxcli software vib list' as part of virtual machine enumeration to identify installed components.
+T1673,"By executing 'esxcli storage vmfs extent list', the malware identified virtual machines based on their storage locations."
+T1597,The attacker purchased access to a private intelligence feed containing information about the target's security policies.
+T1597,The adversary collected organizational intelligence from a paid dark web monitoring service.
+T1212,"Using the MS14-068 vulnerability, the threat actor created forged Kerberos TGT tickets."
+T1212,The adversary used MS14-068 to create forged Kerberos tickets and impersonate domain administrators.
+T1212,The attack chain involved exploiting MS14-068 to forge Kerberos tickets with arbitrary group membership.
+T1212,"The adversary leveraged MS14-068 to create forged Kerberos tickets, enabling credential theft across the network."
+T1212,"Using the MS14-068 vulnerability, the threat actor created forged Kerberos TGT tickets."
+T1212,The threat actor exploited MS14-068 to forge Kerberos tickets and move laterally across the network.
+T1212,"By exploiting MS14-068, the attacker forged Kerberos tickets to collect authentication credentials from domain controllers."
+T1671,The threat actor used an existing OAuth application to maintain persistent access to the victim's email account.
+T1671,The attacker created a malicious OAuth application to maintain persistent access to the victim's cloud resources.
+T1671,The malware used a custom OAuth application to maintain persistent access to calendar and contact data.
+T1671,Malicious actors leveraged an existing OAuth application to maintain persistence in the compromised email system.
+T1580,The adversary queried the DescribeInstances API to identify running virtual machines in the cloud environment.
+T1580,"Through the AWS SDK, the attacker used ListBuckets to identify potential data exfiltration targets."
+T1580,"Through the ListBuckets API, the threat actor mapped all accessible cloud storage resources."
+T1612,A threat actor wrote a Dockerfile that secretly installed keylogging software in the container image.
+T1612,The malware wrote a Dockerfile that configured the container to communicate with a command and control server.
+T1612,The threat actor exploited the Docker engine API to launch a container that concealed fileless malware execution.
+T1612,The malware wrote a Dockerfile that copied encrypted payloads into the container filesystem.
+T1612,A threat actor wrote a Dockerfile that included cryptocurrency mining software in the container image.
+T1542,A threat actor implanted a backdoor in the system's BIOS to ensure persistence even after disk formatting.
+T1542,The malware altered the BIOS to include a hidden partition that loads malicious code during system startup.
+T1542,"Malicious code was embedded in the UEFI firmware, ensuring persistence that survives operating system reinstallation."
+T1542,The attacker modified the BIOS firmware to establish persistence before the operating system loads.
+T1675,"Through the StartProgramInGuest function, the attacker executed a malicious payload on the virtual machine."
+T1675,The malware abused the vSphere Web Services SDK to execute a persistence mechanism on the guest operating system.
+T1675,The threat actor leveraged vSphere Web Services SDK to remotely execute commands on guest operating systems.
+T1675,The malicious actor utilized vSphere Web Services SDK to execute arbitrary commands on compromised guest VMs.
+T1675,The malicious script utilized vSphere Web Services SDK to execute system commands across multiple guest VMs.
+T1593,The malicious script queried Crunchbase for funding rounds and investor details of the victim company.
+T1593,The malware queried news websites for articles about recent corporate acquisitions.
+T1593,The script queried business directories to gather organizational structure details.
+T1137,The threat actor leveraged Outlook's extended MAPI to create a persistent COM add-in.
+T1137,The threat actor embeds a PowerShell script in PowerPoint's default template to maintain persistence.
+T1137,The infection creates a VBScript in the Outlook VBA project that triggers when emails are received.
+T1137,The threat actor implants a script in Word's building blocks that executes when specific document elements are inserted.
+T1137,The malware leveraged Outlook.exe to maintain persistence by executing malicious code during application startup.
+T1137,The persistence mechanism involved modifying Excel's Personal.xlsb template to run hidden macros.
+T1538,The threat actor used GCP Command Center to discover storage buckets with weak access controls.
+T1538,The script leveraged GCP Command Center APIs to map all cloud resources in the project.
+T1538,The script leveraged GCP Command Center's findings API to list cloud resources with security risks.
+T1538,The tool used GCP Command Center to enumerate compute engines lacking encryption.
+T1538,The attacker leveraged Command Center's security marks to identify high-risk cloud resources.
+T1596,The threat actor queried an SSL certificate transparency log to discover subdomains associated with the target organization.
+T1596,A script was used to search WHOIS records for technical contact information of the victim's domains.
+T1596,The threat actor searched WHOIS databases to obtain administrative contact emails for potential phishing campaigns.
+T1596,The attacker searched WHOIS records to identify the domain registration details of the target company.
+T1596,The attacker used WHOIS searches to map out the organizational structure and technical contacts of the victim.
+T1621,Malware intercepted and approved Microsoft Authenticator push notifications without the legitimate user's knowledge.
+T1621,The threat actor used session hijacking to bypass Duo Push authentication by reusing valid session tokens.
+T1621,A man-in-the-middle attack intercepted and approved Microsoft Authenticator push notifications between the user and the server.
+T1621,Malware intercepted and approved Microsoft Authenticator push notifications to bypass two-factor authentication.
+T1667,The malware leveraged a botnet to generate massive volumes of spam emails directed at the target.
+T1667,"A custom script was executed to bombard the victim's email with redundant messages, disrupting their access."
+T1559.003,Attackers abused an XPC service's inter-process communication mechanism to escalate from user to administrator privileges.
+T1559.003,"A malicious script established an NSXPCConnection to a system service, enabling it to install persistence mechanisms."
+T1559.003,The threat actor exploited an XPC service daemon's weak authentication to gain unauthorized elevated system access.
+T1559.003,The malware exploited NSXPCConnection to escalate privileges by connecting to a vulnerable XPC service.
+T1098.005,Compromised credentials were used to exploit Okta's administrative console and modify MFA settings.
+T1098.005,The threat actor exploited Okta's API to create backup authentication methods that bypassed MFA requirements.
+T1098.005,Malicious actors registered a new device in Entra ID to bypass conditional access policies requiring MFA.
+T1098.005,The malware exploited Okta's administrative console to exclude specific users from MFA enforcement.
+T1098.005,The attacker exploited Okta's API to create authentication policies that bypass MFA for certain IP ranges.
+T1552.008,The attacker searched through Slack workflow logs for exposed credential information.
+T1552.008,An adversary searched Slack Workflows for exposed webhook URLs with access tokens.
+T1563.001,Malicious code exploited stolen SSH private keys to authenticate to other systems in the network.
+T1563.001,"By exploiting SSH public key authentication with weak key strength, the attacker moved laterally across the network."
+T1563.001,Attackers used hijacked SSH agent sockets to authenticate to multiple systems in the DMZ.
+T1563.001,An adversary forwarded the SSH agent socket to pivot through multiple systems in the network.
+T1055.014,An attacker exploited ptrace system calls to inject shellcode into a running sshd process.
+T1055.014,"Using ptrace, the malware attached to a legitimate browser process and executed injected code."
+T1593.003,The attacker searched GitHub for repositories containing the target company's proprietary API keys.
+T1593.003,Malicious actors queried GitLab for source code containing hardcoded database credentials.
+T1593.003,The threat actor used GitHub's search API to find repositories with exposed AWS access keys.
+T1593.003,Adversaries searched public Git repositories for configuration files containing sensitive environment variables.
+T1593.003,The malware queried Bitbucket for code repositories belonging to the target organization.
+T1593.003,Attackers searched GitHub for commit histories revealing internal network architecture details.
+T1593.003,The threat actor queried public Git repositories for files containing hardcoded SSH private keys.
+T1593.003,Adversaries used GitHub's advanced search to find repositories with exposed authentication tokens.
+T1027.017,The threat actor crafted an SVG file with obfuscated JavaScript payloads to evade detection.
+T1546.016,Malware altered the postinstall script of a system utility to run a persistence mechanism after installation.
+T1546.016,Malware altered the postinstall script of a system utility to run a persistence mechanism after installation.
+T1546.016,A backdoor was triggered by executing a malicious executable embedded in the postinstall script of a software update.
+T1546.016,The attacker configured the postinstall script to run a custom executable that maintains persistence with elevated privileges.
+T1590.002,The reconnaissance tool gathered passive DNS information by analyzing historical DNS query logs.
+T1011.001,Attackers used Bluetooth pairing spoofing to establish unauthorized connections and transfer stolen data.
+T1584.007,Attackers deployed a keylogger through serverless AWS Lambda functions to avoid detection by traditional security tools.
+T1584.007,The campaign used AWS Lambda to proxy malicious traffic through trusted AWS IP ranges.
+T1584.007,The malware leveraged AWS Lambda's serverless architecture to maintain persistence without dedicated infrastructure.
+T1584.007,Attackers used Cloudflare Workers to obfuscate communication with compromised systems through encrypted channels.
+T1584.007,The campaign exploited AWS Lambda functions to rotate IP addresses and avoid reputation-based blocking.
+T1584.007,The threat actor used AWS Lambda to create a serverless redirect service for stolen credentials.
+T1583.007,Attackers configured AWS Lambda functions to proxy malicious traffic and hide their actual server locations.
+T1583.007,Malicious actors purchased multiple Cloudflare Workers accounts using stolen payment methods to avoid attribution.
+T1552.007,Malware collected container logs from the Docker daemon to extract authentication tokens.
+T1552.007,The threat actor queried the container registry API to obtain images with embedded credentials.
+T1552.007,The script collected container execution logs to harvest credentials passed as command-line arguments.
+T1552.007,Malicious software collected logs from the Docker daemon to extract authentication tokens.
+T1586.001,The attacker sent phishing emails disguised as LinkedIn security alerts to harvest employee credentials.
+T1505.002,A backdoor DLL was written to the Exchange transport agent folder to maintain persistent access to email communications.
+T1505.002,Malicious code wrote a backdoored DLL to the Exchange transport pipeline for persistent email access.
+T1505.002,The attacker wrote a malicious DLL to the Exchange Server's transport agent directory to intercept all incoming emails.
+T1505.002,A backdoored DLL was written to the Exchange transport agent folder to maintain persistence through email processing.
+T1505.002,An attacker wrote a custom DLL that hooks into Exchange transport events to maintain persistent access to mail flow.
+T1059.002,Malware wrote an AppleScript file to /Users/Shared/backdoor.applescript that would establish persistence by adding a login item.
+T1606.002,The attacker used a stolen private key to forge SAML tokens for unauthorized access to cloud applications.
+T1606.002,The malware modified SAML token expiration settings by manipulating AccessTokenLifetime for extended access.
+T1606.002,"Using exported private keys, the threat actor generated SAML tokens to impersonate legitimate users."
+T1606.002,The threat actor leveraged stolen private keys to sign fraudulent SAML assertions for unauthorized access.
+T1003.007,The attacker used grep -E to search process memory for password patterns.
+T1003.007,The tool parsed /proc/$pid/maps to locate memory segments with sensitive data.
+T1003.007,"Using grep -E, the attacker searched memory dumps for API keys and secrets."
+T1590.005,The adversary performed an nmap scan against the organization's public web servers to map their IP infrastructure.
+T1591.001,The threat actor searched the victim organization's careers page for office addresses in different cities.
+T1591.001,The attacker searched the victim's corporate website for facility locations and contact information.
+T1591.001,The malware queried Facebook profiles of executives to gather information about office locations.
+T1591.001,The malware queried professional networking sites to collect employee work locations and office addresses.
+T1591.001,The threat actor searched the victim company's website for office location information.
+T1591.001,The attacker queried LinkedIn profiles to identify employee work locations.
+T1591.001,Malware scraped the victim organization's 'Contact Us' page for physical addresses.
+T1591.001,The adversary queried Twitter location data to determine employee work sites.
+T1098.002,The attacker used Add-MailboxPermission.ps1 to grant themselves full access permissions to multiple executive email accounts.
+T1574.007,An attacker dropped a malicious net.exe file into a writable directory that appears earlier in the PATH than the legitimate system directory.
+T1137.002,The attacker wrote malicious.dll to the Office startup directory to maintain access.
+T1555.006,The compromised application called 'gcloud secrets describe database-passwords' to retrieve database connection strings from Google Cloud.
+T1555.006,The malware used 'gcloud secrets describe' to access API keys stored in Google Cloud Secret Manager.
+T1555.006,The script executed 'aws secretsmanager get-secret-value --secret-id ssl-certificates' to steal TLS private keys.
+T1555.006,The threat actor called 'aws secretsmanager get-secret-value --secret-id encryption-keys' to collect cryptographic material.
+T1555.006,The script invoked 'az keyvault secret show' to extract connection strings from Azure Key Vault.
+T1555.006,An adversary ran 'aws secretsmanager get-secret-value --secret-id production-db' to steal production database passwords.
+T1555.006,The malware used 'gcloud secrets describe api-keys' to gather API credentials from Google Cloud.
+T1036.011,The exploit kit wrote misleading information to /proc/5179/cmdline to bypass process-based defenses.
+T1574.013,The attacker employed WriteProcessMemory to inject malicious code into a legitimate process.
+T1574.013,The ransomware used WriteProcessMemory to modify the memory space of explorer.exe.
+T1564.013,"The backdoor used bind mounts to overlay '/proc/2345/fd' with empty directories, hiding its open file descriptors."
+T1564.013,The backdoor used 'mount -o bind /empty_file /proc/1111/environ' to hide environment variables that could reveal its origin.
+T1564.013,The trojan altered '/proc/4444/cwd' to display a legitimate directory path instead of its actual working directory.
+T1564.013,Ransomware altered '/proc/$PID/cmdline' to display a benign command line instead of its actual malicious parameters.
+T1564.013,The backdoor used bind mounts to redirect '/proc/self/environ' to a file containing sanitized environment variables.
+T1564.013,The implant altered '/proc/self/fd' entries using bind mounts to hide open network connections and file handles.
+T1598.001,A threat actor sent spearphishing emails from a Gmail account posing as HR to collect login credentials.
+T1598.001,A fake Facebook profile was created pretending to be a recruiter to harvest professional information from job seekers.
+T1598.001,The attacker crafted a counterfeit Instagram account impersonating a celebrity to extract personal data from fans.
+T1598.001,A fraudulent Reddit account was created posing as a cybersecurity expert to trick users into sharing sensitive information.
+T1598.001,A malicious actor established a counterfeit professional networking profile to harvest corporate contact details.
+T1598.001,A threat actor sent spearphishing emails through Gmail to target specific individuals within the organization.
+T1598.001,A threat actor created a counterfeit Instagram profile pretending to be a company's official account to gather customer information.
+T1137.006,A VBA add-in was configured to execute automatically when Excel starts.
+T1218.009,Malware executed regasm.exe to register a rogue COM component and evade detection.
+T1557.002,The attacker scanned the network to find ARP requests between the gateway and target workstations.
+T1557.002,The adversary used a network sniffer to find ARP requests and map device relationships.
+T1557.002,The tool monitored broadcast traffic to find ARP requests revealing network topology.
+T1555.002,The malware dumped securityd's memory space to recover unencrypted Safari autofill data.
+T1555.002,A spyware module queried securityd for plaintext browser passwords stored in the keychain.
+T1555.002,Malware dumped securityd memory to recover plaintext credentials from the keychain.
+T1558.001,The attacker exploited the KRBTGT password hash to forge a golden ticket with unlimited domain access.
+T1588.006,The threat actor searched public exploit repositories for known vulnerabilities in the target's VPN solution.
+T1588.006,The malware queried a private vulnerability database to find unpatched flaws in web server software.
+T1556.006,The threat actor manipulated the hosts file to prevent connections to legitimate MFA services by redirecting them to localhost.
+T1556.006,An attacker with privileged access abused Conditional Access Policies to create a rule that bypasses MFA for specific IP ranges.
+T1556.006,The malware tampered with the hosts file to intercept and drop packets destined for multi-factor authentication servers.
+T1556.006,"The threat group modified the hosts file to redirect authentication requests to a controlled server, effectively disabling MFA checks."
+T1056.003,Attackers injected a credential harvesting script into the VPN authentication page.
+T1496.003,The attacker scanned GitHub repositories to find exposed Twilio API credentials.
+T1496.003,The attacker scanned GitHub repositories to find exposed Twilio API credentials.
+T1496.003,Attackers leveraged AWS SNS to send premium-rate SMS messages to multiple phone numbers.
+T1496.003,Malware analyzed network traffic to identify Twilio API communication patterns for exploitation.
+T1137.001,The attacker modified Normal.dotm to execute malicious VBA code whenever Word documents are opened.
+T1137.001,The backdoor modified PERSONAL.XLSB to automatically run when Excel starts.
+T1137.001,The attacker modified Normal.dotm to execute malicious VBA code whenever Word documents are opened.
+T1137.001,The threat actor injected malicious code into Normal.dotm to ensure execution across all new Word documents.
+T1137.001,A persistence mechanism was established by modifying PERSONAL.XLSB with a macro that runs automatically.
+T1588.004,The threat actor collected a database of stolen private keys from a breached hosting provider.
+T1562.012,The threat actor used 'killall auditd' to stop all audit logging processes.
+T1562.012,Malicious code executed 'service auditd stop' to disable system auditing.
+T1137.005,The malware modified Outlook.exe to load a malicious DLL upon startup.
+T1137.005,The persistence technique modified Outlook.exe to load a compromised DLL at launch.
+T1137.005,Malware modifies Outlook's startup sequence to execute a rogue DLL upon email client launch.
+T1137.005,The malware modified Outlook.exe to load a malicious DLL upon startup.
+T1137.005,The malware modified Outlook's startup parameters to load a spyware DLL.
+T1556.008,The registry key HKLM\SYSTEM\CurrentControlSet\Control\NetworkProvider\Order was altered to include a rogue network provider.
+T1556.008,The malware modified the NetworkProvider Order registry value to prioritize its credential-stealing DLL.
+T1556.008,The attacker wrote malicious.dll to the system and configured it as a network provider to capture passwords.
+T1556.008,The attacker dropped malicious.dll into the System32 directory to intercept authentication credentials.
+T1499.003,"The DDoS tool executed sustained requests to the image processing service, causing rendering delays."
+T1048.001,The backdoor encrypted collected credentials using AES before sending them over HTTPS.
+T1048.001,The data stealer encrypted intellectual property with RC4 and exfiltrated it via FTP.
+T1048.001,The threat actor encrypted email archives using AES before transferring them to an external server.
+T1048.001,Data was encrypted with RC4 algorithm and then uploaded to a cloud storage service.
+T1558.005,"Through klist queries, the adversary determined which service tickets were available for silver ticket forgery."
+T1558.005,The attacker used klist to enumerate available Kerberos tickets on the compromised system.
+T1558.005,Malware collected the krb5cc_1000 file from the user's temporary directory for credential theft.
+T1558.005,A PowerShell script executed klist to identify cached Kerberos tickets for lateral movement.
+T1558.005,Attackers exfiltrated krb5cc_1001 from the compromised host to impersonate the domain user.
+T1596.003,Malware queried certificate transparency logs to identify subdomains used by the victim company.
+T1596.003,The threat actor queried SSL certificate databases to map the target's digital infrastructure.
+T1596.003,Adversaries queried SSL certificate transparency logs to discover subdomains belonging to the target company.
+T1596.003,Malware queried the Certificate Transparency logs to identify subdomains associated with the victim company.
+T1597.001,The threat actor queried a paid threat intelligence feed to gather intelligence on the target's email security measures and anti-phishing defenses.
+T1597.001,The malicious actor queried a paid threat intelligence feed to obtain information about the target's employee email addresses.
+T1597.001,The attacker queried a paid threat intelligence feed to gather details about the target organization's security tools.
+T1597.001,The attacker queried a paid threat intelligence feed to gather targeting information about the organization's executives.
+T1608.006,The attacker injected hidden text containing popular search terms into the compromised website's footer.
+T1591.004,The reconnaissance tool queried the victim's corporate website for team member bios.
+T1593.001,The script collected publicly available contact information from professional networking sites.
+T1098.001,The malware executed 'az role assignment create' via Azure CLI to assign elevated permissions to a compromised account.
+T1596.002,The malicious actor queried WHOIS records to identify domain expiration dates and potential takeover opportunities.
+T1596.002,The reconnaissance script used command-line whois utilities to extract domain expiration dates and status information.
+T1596.002,Threat actors searched various online WHOIS lookup tools to identify the victim's domain registration patterns and technical contacts.
+T1596.002,A script was deployed to systematically query WHOIS records and extract domain expiration dates for reconnaissance.
+T1596.002,The threat actor searched ARIN's WHOIS database online to identify IP address ranges belonging to the victim.
+T1596.002,Infection malware ran 'whois -h whois.verisign-grs.com example.org' to extract domain registrar details.
+T1137.003,Malware wrote a custom Outlook form to the user's Forms library for automatic execution.
+T1137.003,Ransomware created a hidden Outlook form with persistence mechanisms in the default forms folder.
+T1137.003,The attacker designed a compromised Outlook form that activates when specific email criteria are met.
+T1137.003,A persistence mechanism was created by writing a custom Outlook form to the organizational forms library.
+T1137.003,Malware wrote a custom Outlook form to the user's Forms Library for execution upon Outlook startup.
+T1137.003,Ransomware wrote a persistent Outlook form that runs encryption routines when Outlook launches.
+T1137.003,The spyware created a custom Outlook form that exfiltrates data when specific emails are received.
+T1567.003,The trojan collected email contacts and saved them to a text storage platform for data theft.
+T1567.003,The malicious tool harvested database records and stored them on a text-sharing platform.
+T1137.004,The threat actor altered Outlook's registry settings to point to a weaponized HTML file.
+T1137.004,A VBScript embedded in the Outlook home page executed to download additional payloads.
+T1556.007,A malicious.dll was injected into the AzureADConnectAuthenticationAgentService to capture and relay authentication requests.
+T1556.007,The attacker modified the AzureADConnectAuthenticationAgentService configuration to bypass cloud authentication.
+T1558.004,"Using PowerShell.exe, the malware searched for Kerberos authentication data in memory dumps."
+T1558.004,An adversary used PowerShell.exe to find cached Kerberos credentials in the LSASS process.
+T1552.005,Malicious code extracted cloud access keys by querying the instance metadata service at http://169.254.169.254.
+T1552.005,The malware retrieved temporary security tokens by querying the IMDS endpoint at 169.254.169.254.
+T1552.005,The threat actor extracted cloud service account credentials by accessing the instance metadata endpoint.
+T1552.005,The malware retrieved UserData from the metadata endpoint to extract hardcoded API keys from bootstrap scripts.
+T1596.004,A reconnaissance tool was used to search jsdelivr.com for publicly accessible customer assets.
+T1596.004,An adversary browsed to a CDN lookup service to gather intelligence on the target's content delivery network.
+T1596.004,The script executed nslookup commands to resolve the target's domain and identify associated CDN IP ranges.
+T1596.004,"Using command-line tools, the threat actor ran nslookup to enumerate the target's CDN configuration."
+T1556.009,The malware changed Entra ID conditional access settings to disable location-based access blocks.
+T1556.004,A backdoor was created by injecting implanted_code.dll that uses hardcoded credentials to grant access.

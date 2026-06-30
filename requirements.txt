@@ -1,0 +1,20 @@
+# BEDR Framework 依赖环境
+# Boundary Entropy-Driven Resampling for CTI TTP Classification
+
+# 核心数据处理
+numpy==1.26.4
+pandas==2.2.3
+scipy==1.14.1
+scikit-learn==1.5.2
+
+# 图处理
+networkx==3.4.2
+
+# LLM API (DeepSeek / OpenAI-compatible)
+openai==1.55.0
+
+# 进度显示
+tqdm==4.67.0
+
+# Embedding API (DashScope / OpenAI-compatible)
+requests==2.32.3

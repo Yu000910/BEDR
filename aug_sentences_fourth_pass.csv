@@ -1,0 +1,6 @@
+tech_id,sentence
+T1558,The attacker used klist.exe to list cached Kerberos tickets from the target system.
+T1558,Malware executed klist to enumerate available Kerberos service tickets in memory.
+T1558,The threat actor ran klist.exe to identify cached TGT tickets for potential extraction.
+T1558,The adversary used klist.exe to view Kerberos ticket expiration times and session keys.
+T1558,Malicious code executed klist with the purge option to clear cached Kerberos tickets after extraction.
