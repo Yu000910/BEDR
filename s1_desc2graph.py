@@ -147,7 +147,7 @@ def generate_initial_graph_file():
     try:
         minor_df = pd.read_csv('cleaned_duplicate_data.csv')
     except FileNotFoundError:
-        print("Error: 'minority_list.csv' not found. Cannot run batch processing.")
+        print("Error: 'cleaned_duplicate_data.csv' not found. Cannot run batch processing.")
         return
 
     graph_map = {}
