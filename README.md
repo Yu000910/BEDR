@@ -10,6 +10,7 @@ This repository contains the official implementation of the BEDR (Boundary Entro
 | `s2_graph_embed.py` | Build hybrid vector space, compute and save reference vectors for entropy calculation |
 | `s3_fourth_pass_augmentation.py` | Core BEDR program: multi-round adaptive oversampling with boundary entropy filtering |
 | `organize_and_generate_datasets.py` | Boundary entropy-driven undersampling, clean majority classes, generate final training sets |
+| `validate_schema.py` | Schema validation & verb distribution analysis for `intent_action_entity.json` |
 | `generate_native_llm_direct.py` | Baseline: direct LLM generation without boundary entropy filtering |
 | `utils_llm.py` | OpenAI/DeepSeek API wrapper for LLM calls |
 | `utils_embedding.py` | Embedding API wrapper for vector computation |
@@ -95,6 +96,16 @@ The BEDR pipeline depends on external API services (DeepSeek for LLM augmentatio
 - **The embedding file** (`all_samples_intent_sentence_embed.npz`, 44 MB) exceeds GitHub's file size limit. Its generation command is documented (Step 2: `s2_graph_embed.py`) with the exact model and parameters specified.
 - **Decoding is deterministic.** Temperature is set to 0.0 for all LLM calls. Given the same model version and input, outputs are reproducible.
 - **Model version evolution is expected.** API providers may update underlying model weights over time (e.g., `deepseek-chat` may point to a newer checkpoint). This is a natural characteristic of API-based research and typically improves capability. The fixed methodology (prompts, parameters, seeds, intermediate data) ensures the scientific findings remain verifiable independent of the specific API model version.
+
+## Schema Validation
+
+To verify the structural integrity and verb distribution of `intent_action_entity.json`:
+
+```bash
+python validate_schema.py
+```
+
+This script reports: (i) structural schema validation (all entries conforming to `{intent, action_chain, entities}`), and (ii) verb distribution relative to the canonical vocabulary (percentage of tokens within/outside the recommended verb list). See the script's docstring for details.
 
 ## Execution Order
 
