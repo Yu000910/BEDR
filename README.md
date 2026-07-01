@@ -46,12 +46,55 @@ Edit `utils_llm.py` and `utils_embedding.py` to configure your API keys:
 client = OpenAI(api_key="your-deepseek-api-key", base_url="https://api.deepseek.com")
 
 # utils_embedding.py
-api_key = "your-embedding-api-key"
+api_key = "your-dashscope-api-key"
+base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1"
 ```
 
-**Models used:**
-- LLM: `deepseek-chat` (temperature=0.0)
-- Embedding: DashScope text-embedding or OpenAI-compatible embedding API
+## API Reproducibility Notes
+
+### LLM (All Pipeline Stages)
+
+| Parameter | Value |
+|-----------|-------|
+| Provider | DeepSeek |
+| Model | `deepseek-chat` (DeepSeek-V3) |
+| Base URL | `https://api.deepseek.com` |
+| Temperature | 0.0 (deterministic decoding) |
+| Generation Period | December 2025 – April 2026 |
+
+### Embedding (Step 2: s2_graph_embed.py)
+
+| Parameter | Value |
+|-----------|-------|
+| Provider | Aliyun DashScope |
+| Model | `text-embedding-v4` |
+| Base URL | `https://dashscope.aliyuncs.com/compatible-mode/v1` |
+| Dimensions | 768 |
+| Generation Period | December 2025 – April 2026 |
+
+### Prompts
+
+All LLM prompts are preserved in their entirety within the released Python scripts (not redacted or summarized):
+
+| Script | Prompt Purpose |
+|--------|---------------|
+| `s1_desc2graph.py` | System prompt for extracting Intent/Action/Entity graphs from technique descriptions |
+| `s3_fourth_pass_augmentation.py` | Prompt for generating diverse technique example sentences with boundary constraints |
+| `utils_llm.py` | Paraphrase batch prompt for semantic variation |
+| `generate_native_llm_direct.py` | Direct LLM generation prompt (baseline, no boundary entropy filtering) |
+
+### Random Seeds
+
+All scripts use fixed random seeds (`random_state=42`, `seed=42`) for data splits and sampling. These are explicitly set in every script that involves randomness.
+
+### On API-Based Reproducibility
+
+The BEDR pipeline depends on external API services (DeepSeek for LLM augmentation, DashScope for embedding). To address this:
+
+- **Intermediate outputs are provided.** All augmentation CSV files (`aug_sentences_*.csv`) serve as cached LLM outputs, allowing Step 4 (dataset organization) and all downstream Deep-AttacKG experiments to execute without re-calling the LLM API.
+- **The embedding file** (`all_samples_intent_sentence_embed.npz`, 44 MB) exceeds GitHub's file size limit. Its generation command is documented (Step 2: `s2_graph_embed.py`) with the exact model and parameters specified.
+- **Decoding is deterministic.** Temperature is set to 0.0 for all LLM calls. Given the same model version and input, outputs are reproducible.
+- **Model version evolution is expected.** API providers may update underlying model weights over time (e.g., `deepseek-chat` may point to a newer checkpoint). This is a natural characteristic of API-based research and typically improves capability. The fixed methodology (prompts, parameters, seeds, intermediate data) ensures the scientific findings remain verifiable independent of the specific API model version.
 
 ## Execution Order
 
