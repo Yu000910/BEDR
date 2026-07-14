@@ -57,5 +57,7 @@ for tech_node in tqdm.tqdm(tech_nodes, desc="聚合技术向量"):
         node_embed[tech_node] = np.zeros(768) # 假设嵌入维度为768
 
 # --- 步骤 4: 保存所有节点的嵌入 ---
+np.savez('all_samples_intent_sentence_embed.npz', **node_embed)
+# Also save as .npy for backward compatibility
 np.save('graph_embed.npy', node_embed)
-print(f"S2 完成：包含 {len(node_embed)} 个节点的 graph_embed.npy 已生成。")
+print(f"S2 完成：包含 {len(node_embed)} 个节点的 all_samples_intent_sentence_embed.npz 已生成。")

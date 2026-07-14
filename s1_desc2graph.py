@@ -110,7 +110,8 @@ def desc2graph(description: str, max_retries: int = 2) -> dict:
             rsp = client.chat.completions.create(
                 model="deepseek-chat",
                 messages=messages,
-                response_format={'type': 'json_object'}
+                response_format={'type': 'json_object'},
+                temperature=0.0
             )
             data = json.loads(rsp.choices[0].message.content)
 
