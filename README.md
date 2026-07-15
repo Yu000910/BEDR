@@ -146,7 +146,7 @@ python organize_and_generate_datasets.py
   - `final_test_resampled_vectors.npz` — test set vectors with encoded labels
 - **Output:** `BEDR_resampled_dataset.csv`, `D_BEDR.npz`, `D_test.npz`, train/test split files
 - **Runtime:** ~15 minutes
-- **Note:** The cached `.npz` files are available from the repository release page. If they are missing, the script will report which files are needed and exit with a clear error message. To regenerate them, use the embedding API parameters documented in the [API Configuration](#api-configuration) section.
+- **Note:** The cached `.npz` files are available from the [v2.0-npz-cache GitHub Release](https://github.com/Yu000910/BEDR/releases/tag/v2.0-npz-cache). Download all four `.npz` files and place them in the project root. If they are missing, the script will report which files are needed and exit with a clear error message. To regenerate them instead, use the embedding API parameters documented in the [API Configuration](#api-configuration) section.
 
 ### Baseline (Optional)
 ```bash
