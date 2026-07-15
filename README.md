@@ -35,6 +35,9 @@ This repository contains the official implementation of the BEDR (Boundary Entro
 | `final_train_set_resampled.csv` | 1.8 MB | Output of `organize_and_generate_datasets.py` |
 | `final_test_set_resampled.csv` | 464 KB | Output of `organize_and_generate_datasets.py` |
 | `BEDR_resampled_dataset.csv` | 2.7 MB | Final BEDR resampled dataset |
+| `D_BEDR.npz` | 65 MB | Final combined dataset (train+test vectors) — in [Release](https://github.com/Yu000910/BEDR/releases/tag/v2.0-npz-cache) |
+| `D_Baseline.npz` | 45 MB | Baseline dataset (original, no augmentation) — in [Release](https://github.com/Yu000910/BEDR/releases/tag/v2.0-npz-cache) |
+| `D_Native.npz` | 108 MB | Naive LLM baseline dataset — in [Release](https://github.com/Yu000910/BEDR/releases/tag/v2.0-npz-cache) |
 
 ## Environment Setup
 
@@ -164,7 +167,7 @@ python organize_and_generate_datasets.py
   - `final_test_resampled_vectors.npz` — test set vectors with encoded labels
 - **Output:** `BEDR_resampled_dataset.csv`, `D_BEDR.npz`, `D_test.npz`, `D_train_BEDR.csv`, train/test split files
 - **Runtime:** ~15 minutes
-- **Note:** The cached `.npz` files are available from the [v2.0-npz-cache GitHub Release](https://github.com/Yu000910/BEDR/releases/tag/v2.0-npz-cache). Download all five `.npz` files and place them in the project root. If they are missing, the script will report which files are needed and exit with a clear error message. To regenerate them instead, use the embedding API parameters documented in the [API Configuration](#api-configuration) section.
+- **Note:** The cached `.npz` files are available from the [v2.0-npz-cache GitHub Release](https://github.com/Yu000910/BEDR/releases/tag/v2.0-npz-cache). Download all eight `.npz` files and place them in the project root. If they are missing, the script will report which files are needed and exit with a clear error message. To regenerate them instead, use the embedding API parameters documented in the [API Configuration](#api-configuration) section.
 
 ### Baseline (Optional)
 ```bash
