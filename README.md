@@ -2,7 +2,7 @@
 
 This repository contains the official implementation of the BEDR (Boundary Entropy-Driven Resampling) framework. BEDR is also used as the training data construction pipeline for the **Deep-AttacKG** system (see [Yu000910/deep_attackg](https://github.com/Yu000910/deep_attackg)).
 
-**Release:** v2.0 | **Commit:** `ceaa89a`
+**Release:** v2.0 | **Commit:** `7433faa`
 
 ## Directory Structure
 
