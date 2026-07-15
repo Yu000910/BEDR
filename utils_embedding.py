@@ -8,7 +8,7 @@ from openai import OpenAI
 
 
 client = OpenAI(
-api_key="",  # 如果您没有配置环境变量，请在此处用您的API Key进行替换
+api_key="",  # If you have not configured an environment variable, replace with your API key here
 base_url="https://dashscope.aliyuncs.com/compatible-mode/v1"  # 百炼服务的base_url
 )
 
