@@ -4,7 +4,7 @@ from openai import OpenAI
 # from config import DEEPSEEK_KEY, DEEPSEEK_URL
 import time
 
-client = OpenAI(api_key="", base_url="https://api.deepseek.com",)  # 替换为您的API密钥
+client = OpenAI(api_key="", base_url="https://api.deepseek.com",)  # Replace with your API key
 
 
 
@@ -14,8 +14,8 @@ def deepseek_paraphrase_batch(orig_sentences: list[str], n_each: int) -> list[st
     输出：所有生成句子的扁平列表
     """
     system = ('''You are a cybersecurity assistant. 
-              为每个句子样本生成语义等价且多样性表述的样本''' 
-              f"我会给你提供一个原始样本列表，列表中每个元素是一个样本，请你随机选择样本进行生成，直到生成{n_each}个语义等价且多样性表达的样本为止，生成的样本也请使用英文表述。"
+              Generate semantically equivalent and diverse paraphrases for each sentence sample''' 
+              f"I will provide a list of original samples. Randomly select samples and generate until you have produced{n_each}semantically equivalent and diverse paraphrases. Please use English for all generated samples."
               f"Return valid JSON list of strings, length={n_each}."
               '''EXAMPLE JSON OUTPUT:
                 {
@@ -26,7 +26,7 @@ def deepseek_paraphrase_batch(orig_sentences: list[str], n_each: int) -> list[st
     
 
     user_prompt = f"""
-    原始样本列表：
+    Original samples:
     {orig_sentences}
     """
     
