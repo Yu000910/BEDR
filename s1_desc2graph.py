@@ -25,15 +25,14 @@ Convert the ATT&CK description into a machine-readable "attack playbook" JSON wi
 【2 动作链 action_chain】
 - 列表长度 ≥ 1，≤ 10；
 - 每个元素必须是 {verb, tool} 对；
-- verb 只允许来自：
-  # [DESIGN RATIONALE] The 28-verb vocabulary above serves as a controlled vocabulary
+- verb 优先选用以下推荐动词；仅在所有推荐动词均无法准确描述当前攻击动作时，才可选用列表外的精确动词：
+  # [DESIGN RATIONALE] The 27-verb vocabulary serves as a controlled vocabulary
   # guideline to standardize LLM output and prevent near-synonym fragmentation
   # (e.g., get/obtain/retrieve/acquire) that would degrade downstream s2 vector
-  # computation and s3 boundary entropy estimation. In practice, the LLM
-  # (deepseek-chat, T=0.0) achieves 89.2% token-level compliance with this
-  # vocabulary, with the remaining 10.8% representing semantically necessary
-  # adaptations where no canonical verb accurately captures the attack action.
-  # See validate_schema.py for the full audit report.
+  # computation and s3 boundary entropy estimation. The LLM is instructed to
+  # prefer these verbs but may select a more precise verb outside the list when
+  # no canonical verb accurately captures a specific attack action. See
+  # validate_schema.py for the full audit report.
   search, find, collect, query, dump, extract, write, drop, save, store,
   encode, encrypt, execute, run, launch, abuse, leverage, exploit,
   modify, replace, patch, hijack, inject, remove, delete, clear, wipe；
